@@ -1,0 +1,38 @@
+---
+import Section from "./Section.astro";
+import { terms } from "../data/site";
+---
+<Section id="terms" class="terms">
+  <div class="container terms__grid">
+    <div class="terms__claim">
+      <h2 class="terms__title">Ціну робіт фіксуємо до початку ремонту</h2>
+      <p class="terms__text">Спершу діагностика й погоджена вартість робіт, потім ремонт у зазначений термін.</p>
+    </div>
+    <ul class="terms__list">
+      {terms.map((t) => (
+        <li>
+          <h3 class="terms__head">{t.head}</h3>
+          <p>{t.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
+
+<style is:global>
+  .terms { padding-block: var(--section-y); }
+  .terms__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  .terms__claim { display: grid; gap: var(--space-3); align-content: start; }
+  .terms__title { font-size: var(--fs-5); max-width: 16ch; text-wrap: balance; }
+  .terms__text { font-size: var(--fs-3); max-width: 38ch; color: var(--color-muted); }
+  .terms__list li { padding-block: var(--space-2); border-bottom: 1px solid var(--color-border); }
+  .terms__list li:first-child { border-top: 1px solid var(--color-border); }
+  .terms__head { font-size: var(--fs-3); font-weight: 600; margin-bottom: 0.25rem; }
+  .terms__list p { color: var(--color-muted); }
+  @media (min-width: 1100px) {
+    .terms__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+    .terms__claim { grid-column: 1 / span 6; position: sticky; top: calc(var(--header-h) + var(--space-4)); }
+    .terms__title { font-size: clamp(3rem, 1rem + 3.4vw, 4.5rem); text-wrap: balance; }
+    .terms__list { grid-column: 8 / span 5; }
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import { Picture } from "astro:assets";
+import hall from "../assets/photos/station-hall.jpg";
+import lifts from "../assets/photos/station-lifts.jpg";
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import { note } from "../data/site";
+---
+<Section id="station" class="station">
+  <div class="container">
+    <h2 class="section-title station__title">Понад 2000 м² під одним дахом</h2>
+    <div class="station__grid" data-rec="R-D12">
+      <figure class="station__ph station__ph--hall" data-reveal style="--reveal-delay:0ms">
+        <Picture src={hall} formats={["avif", "webp"]} widths={[480, 800, 1280]} sizes="(min-width: 1100px) 56vw, calc(100vw - 2.5rem)" alt="Механік під авто на підйомнику, позаду світлий зал станції" loading="lazy" />
+      </figure>
+      <figure class="station__ph station__ph--lifts" data-reveal style="--reveal-delay:80ms">
+        <Picture src={lifts} formats={["avif", "webp"]} widths={[480, 800]} sizes="(min-width: 1100px) 38vw, calc(100vw - 2.5rem)" alt="Пости з двостійковими підйомниками в залі, механік біля авто" loading="lazy" />
+      </figure>
+      <div class="station__facts">
+        <dl>
+          <div><dt class="station__num num">78 124</dt><dd>обслуговані авто</dd></div>
+          <div><dt class="station__num num"><span class="station__pre">понад</span>50 000</dt><dd>клієнтів</dd></div>
+        </dl>
+        <p class="station__src">За даними компанії. На фото — роботи в цеху станції.</p>
+        <FutureLink note={note}>Про нас</FutureLink>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style is:global>
+  .station { padding-bottom: var(--section-y); }
+  .station__title { margin-bottom: var(--space-5); max-width: 14ch; }
+  .station__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+  }
+  .station__ph { margin: 0; overflow: hidden; }
+  .station__ph img { width: 100%; height: 100%; object-fit: cover; }
+  .station__ph--hall { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+  .station__ph--lifts { aspect-ratio: 4 / 3; }
+  .station__facts { grid-column: 1 / -1; display: grid; gap: var(--space-3); padding-top: var(--space-3); }
+  .station__facts dl { display: grid; gap: var(--space-3); }
+  .station__num { font-weight: 700; font-size: var(--fs-5); line-height: 1; }
+  .station__facts dd { font-size: var(--fs-3); margin-top: 0.25rem; }
+  .station__num { white-space: nowrap; }
+  .station__pre { display: block; font-family: var(--font-body); font-weight: 400; font-size: var(--fs-2); line-height: 1.4; }
+  .station__src { color: var(--color-muted); font-size: var(--fs-1); }
+
+  @media (min-width: 1100px) {
+    .station__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: auto 1fr;
+      gap: var(--gutter);
+    }
+    .station__ph--hall { grid-column: 1 / span 7; grid-row: 1 / span 2; }
+    .station__ph--lifts { grid-column: 8 / span 5; grid-row: 1; }
+    .station__facts { grid-column: 8 / span 5; grid-row: 2; align-content: end; padding-top: 0; }
+    .station__facts dl { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; }
+  }
+
+  /* Motion 4: photos open top-down in turn (clip-path), once, only in this block */
+  .js .station__ph[data-reveal] { opacity: 1; transform: none; }
+  .js .station__ph[data-reveal] img { transition: clip-path var(--dur) var(--ease-out); transition-delay: var(--reveal-delay, 0ms); }
+  .js .station__ph[data-reveal]:not(.is-visible) img { clip-path: inset(0 0 100% 0); }
+  .js .station__ph[data-reveal].is-visible img { clip-path: inset(0); }
+  @media (max-width: 1099px) { .js .station__ph[data-reveal] img { transition-duration: 400ms; transition-delay: 0ms; } }
+  @media (prefers-reduced-motion: reduce) { .js .station__ph[data-reveal]:not(.is-visible) img { clip-path: none; } }
+</style>

@@ -1,0 +1,170 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/autopark-service-logo.png";
+import Icon from "./Icon.astro";
+import Plate from "./Plate.astro";
+import { contacts } from "../data/site";
+
+const nav = [
+  ["#services", "Послуги"],
+  ["#prices", "Ціни"],
+  ["#terms", "Умови"],
+  ["#station", "Станція"],
+  ["#brands", "Марки"],
+  ["#business", "Для бізнесу"],
+  ["#contacts", "Контакти"],
+];
+---
+<header class="header" data-header>
+  <div class="container header__row">
+    <a class="header__logo" href="#hero" aria-label="Автопарк-Сервіс, на початок сторінки" data-rec="R-D15">
+      <Image src={logo} alt="" width={241} height={109} loading="eager" class="header__logo-img" />
+    </a>
+
+    <nav class="header__nav" aria-label="Розділи сторінки">
+      <ul>
+        {nav.map(([href, text]) => <li><a href={href}>{text}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <span class="header__hours">24/7</span>
+      <Plate href={contacts.phoneHref} tone="red" class="header__call header__call--wide" label={`Зателефонувати ${contacts.phoneText}`}><span class="num">{contacts.phoneText}</span></Plate>
+      <Plate href={contacts.phoneHref} tone="red" icon="phone" class="header__call header__call--short" label={`Зателефонувати ${contacts.phoneText}`}>Зателефонувати</Plate>
+      <a class="header__tg" href={contacts.telegram} target="_blank" rel="noopener" aria-label="Написати в Telegram"><Icon name="telegram" /></a>
+
+      <details class="menu" data-menu>
+        <summary class="menu__toggle" aria-label="Меню">
+          <span class="menu__open"><Icon name="menu" /></span>
+          <span class="menu__close"><Icon name="close" /></span>
+        </summary>
+        <div class="menu__panel">
+          <ul class="menu__list">
+            {nav.map(([href, text]) => <li><a href={href} data-menu-link>{text}</a></li>)}
+          </ul>
+          <div class="menu__contacts">
+            <Plate href={contacts.phoneHref} tone="red" icon="phone" sub={contacts.phoneText}>Зателефонувати</Plate>
+            <Plate href={contacts.telegram} tone="graphite" icon="telegram" external>Написати в Telegram</Plate>
+            <a class="text-link" href={contacts.maps} target="_blank" rel="noopener">Маршрут на Кільцеву, 60</a>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style is:global>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--color-bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .is-scrolled .header { border-bottom-color: var(--color-border); }
+  .header__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--header-h);
+  }
+  .header__logo { display: block; flex: none; margin-right: auto; }
+  .header__logo-img { height: var(--logo-h); width: auto; }
+
+  .header__nav { display: none; }
+  .header__nav ul { display: flex; gap: var(--space-3); }
+  .header__nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3rem;
+    font-size: var(--fs-1);
+    font-weight: 500;
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0 1px;
+    background-repeat: no-repeat;
+    background-position: 0 calc(100% - 0.75rem);
+    transition: background-size var(--dur-fast) var(--ease-out);
+  }
+  .header__nav a:hover { background-size: 100% 1px; }
+  .header__nav a:active { color: var(--color-muted); }
+
+  .header__actions { display: flex; align-items: center; gap: var(--space-1); }
+  .header__hours { display: none; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-3); }
+  .header .header__call--wide { display: none; }
+  .header .header__call--short { min-height: 3rem; padding-inline: var(--space-2); font-size: var(--fs-1); gap: var(--space-1); }
+  .header__tg { display: none; }
+
+  .header__tg {
+    width: var(--plate-h);
+    height: var(--plate-h);
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+  }
+  .header__tg:active { background: var(--color-primary-strong); }
+  @media (hover: hover) { .header__tg:hover { transform: translateY(-2px); } }
+
+  /* Mobile menu: <details> works without JS */
+  .menu { position: static; }
+  .menu__toggle {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+  }
+  .menu__toggle::-webkit-details-marker { display: none; }
+  .menu__toggle:active { color: var(--color-muted); }
+  .menu__close { display: none; }
+  .menu[open] .menu__open { display: none; }
+  .menu[open] .menu__close { display: block; }
+  .menu__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-2) var(--space) var(--space-4);
+  }
+  .menu__list a, .header__nav a { white-space: nowrap; }
+  .menu__list a {
+    display: flex;
+    align-items: center;
+    min-height: 3.25rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--fs-4);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .menu__list a:active { color: var(--color-muted); }
+  .menu__contacts .text-link { white-space: nowrap; }
+  .menu__contacts { display: grid; gap: var(--space-1); margin-top: var(--space-3); }
+
+  @media (max-width: 359px) {
+    .header .header__call--short .plate__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  }
+
+  @media (min-width: 1100px) {
+    .header__logo { margin-right: 0; }
+    .header__nav { display: block; margin-inline: auto; }
+    .header__hours { display: inline; margin-right: var(--space-1); }
+    .header .header__call--wide { display: inline-flex; }
+    .header .header__call--short { display: none; }
+    .header__tg { display: inline-flex; }
+    .menu { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header__tg:hover { transform: none; }
+  }
+</style>

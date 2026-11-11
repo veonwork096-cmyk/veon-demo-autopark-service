@@ -1,0 +1,195 @@
+---
+import { Picture } from "astro:assets";
+import mechanics from "../assets/photos/service-mechanics.jpg";
+import tyres from "../assets/photos/service-tyres.jpg";
+import body from "../assets/photos/service-body.jpg";
+import Section from "./Section.astro";
+import Plate from "./Plate.astro";
+import FutureLink from "./FutureLink.astro";
+import { groups, contacts, note } from "../data/site";
+
+const photos = {
+  mechanics: { src: mechanics, alt: "Механік працює в моторному відсіку авто з відкритим капотом" },
+  tyres: { src: tyres, alt: "Балансувальний верстат для коліс у шиномонтажній зоні станції" },
+  body: { src: body, alt: "Авто зі знятою передньою частиною кузова на підйомнику, поруч механіки" },
+};
+---
+<Section id="services" rec="R-D02" class="services">
+  <div class="container">
+    <div class="services__head">
+      <h2 class="section-title">19 послуг: від ТО до токарних робіт для агротехніки</h2>
+      <p class="services__intro">Оберіть групу, щоб побачити, що робимо. Усе в одному цеху на Кільцевій.</p>
+    </div>
+
+    <div class="switcher" data-switcher>
+      {groups.map((g, i) => (
+        <>
+          <h3 class="switcher__tab-wrap" style={`--row:${i + 1}`}>
+            <button
+              type="button"
+              class="switcher__tab"
+              id={`tab-${g.id}`}
+              aria-controls={`panel-${g.id}`}
+              aria-expanded={i === 0 ? "true" : "false"}
+              data-tab={g.id}
+            >
+              <span class="switcher__tab-title">{g.title}</span>
+            </button>
+          </h3>
+          <div
+            class:list={["switcher__panel", { "is-active": i === 0 }]}
+            id={`panel-${g.id}`}
+            role="region"
+            aria-labelledby={`tab-${g.id}`}
+            data-panel={g.id}
+          >
+            <div class="switcher__inner">
+              {g.photo ? (
+                <figure class="switcher__media">
+                  <Picture
+                    src={photos[g.photo].src}
+                    formats={["avif", "webp"]}
+                    widths={[400, 640, 960]}
+                    sizes="(min-width: 1100px) 46vw, calc(100vw - 2.5rem)"
+                    alt={photos[g.photo].alt}
+                    loading="lazy"
+                    class="switcher__img"
+                  />
+                </figure>
+              ) : (
+                <div class="switcher__type" data-rec={g.id === "ev" ? "R-D07" : undefined}>
+                  <p class="switcher__type-words">{g.type?.join("  ")}</p>
+                  <p class="switcher__type-caption">{g.typeCaption}</p>
+                </div>
+              )}
+              <p class="switcher__lead">{g.lead}</p>
+              <ul class="switcher__list">
+                {g.items.map((item) => (
+                  <li><span class="switcher__item">{item}</span></li>
+                ))}
+              </ul>
+              <FutureLink note={note}>Детальніше про групу</FutureLink>
+            </div>
+          </div>
+        </>
+      ))}
+      <div class="services__foot">
+        <Plate href={contacts.phoneHref} tone="red" icon="phone" sub={contacts.phoneText}>Зателефонувати й записатися</Plate>
+        <FutureLink note={note}>Усі послуги</FutureLink>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style is:global>
+  .services { padding-block: var(--section-y); }
+  .services__head { display: grid; gap: var(--space-2); margin-bottom: var(--space-5); }
+  .services__intro { color: var(--color-muted); max-width: 40ch; }
+
+  .switcher { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--color-border); }
+  .switcher__tab-wrap { font-size: inherit; }
+  .switcher__tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: 4rem;
+    padding: var(--space-2) 0;
+    border: 0;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--fs-4);
+    line-height: 1.1;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+  .switcher__count { font-size: var(--fs-2); color: var(--color-muted); }
+  .switcher__tab:active { color: var(--color-muted); }
+  .js .switcher__tab::after { content: "+"; flex: none; font-weight: 400; font-size: var(--fs-4); line-height: 1; }
+  .js .switcher__tab[aria-expanded="true"]::after { content: "−"; }
+  .switcher__tab[aria-expanded="true"] .switcher__count { color: inherit; }
+
+  .switcher__panel { padding: var(--space-3) 0 var(--space-4); border-bottom: 1px solid var(--color-border); }
+  .js .switcher__panel:not(.is-active) { display: none; }
+  .switcher__inner { display: grid; gap: var(--space-3); }
+  .switcher__media { margin: 0; }
+  .switcher__img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .switcher__type {
+    display: grid;
+    align-content: end;
+    gap: var(--space-2);
+    min-height: 12rem;
+    padding: var(--space-3);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+  .switcher__type-words { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-5); line-height: 1.05; word-spacing: 0.3em; }
+  .switcher__type-caption { color: var(--color-on-primary-muted); }
+  .switcher__lead { max-width: 52ch; }
+  .switcher__list { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: var(--gutter); }
+  .switcher__list li {
+    display: grid;
+    justify-items: start;
+    align-content: start;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .switcher__item { font-weight: 500; }
+
+  .services__foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin-top: var(--space-5); }
+
+  @media (min-width: 640px) {
+    .switcher__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 1100px) {
+    .services__head { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; }
+    .services__head .section-title { grid-column: 1 / span 8; }
+    .services__intro { grid-column: 9 / span 4; }
+    .js .switcher {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      border-top: 0;
+      align-items: start;
+      grid-template-rows: repeat(5, auto) 1fr;
+    }
+    .js .switcher__tab-wrap { grid-column: 1 / span 5; grid-row: var(--row); }
+    .js .switcher__tab {
+      min-height: 5rem;
+      padding-inline: var(--space-3);
+      font-size: clamp(1.75rem, 0.5rem + 2.2vw, 2.5rem);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .js .switcher__tab-wrap:first-of-type .switcher__tab { border-top: 1px solid var(--color-border); }
+    .js .switcher__tab[aria-expanded]::after { content: none; }
+    .js .services__foot { grid-column: 1 / span 5; grid-row: 6; align-self: start; flex-direction: column; align-items: flex-start; margin-top: var(--space-4); position: sticky; top: calc(var(--header-h) + var(--space-3)); }
+    .switcher__img { aspect-ratio: 16 / 10; }
+    .js .switcher__tab:hover { background: var(--color-surface); }
+    .js .switcher__tab[aria-expanded="true"] { background: var(--color-primary); color: var(--color-on-primary); border-bottom-color: var(--color-primary); }
+    .js .switcher__tab:focus-visible { outline-offset: -3px; }
+    .js .switcher__tab[aria-expanded="true"]:focus-visible { outline-color: var(--color-focus-on-dark); }
+    .js .switcher__panel {
+      grid-column: 6 / span 7;
+      grid-row: 1 / span 6;
+      padding: 0 0 0 var(--space-4);
+      border-bottom: 0;
+    }
+    /* All panels share one cell: the cell takes the tallest panel, so switching never jumps. */
+    .js .switcher__panel:not(.is-active) { display: block; visibility: hidden; }
+    .switcher__inner { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* Motion 2: switching a group cross-fades photo and list (opacity + 8px), height never animates */
+  .js .switcher__panel.is-active .switcher__inner { animation: panel-in var(--dur-switch) var(--ease-out) both; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+  @media (max-width: 1099px) { .js .switcher__panel.is-active .switcher__inner { animation: panel-fade 200ms var(--ease-out) both; } }
+  @media (prefers-reduced-motion: reduce) { .js .switcher__panel.is-active .switcher__inner { animation: none; } }
+</style>

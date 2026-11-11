@@ -1,0 +1,62 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Services from "../components/Services.astro";
+import Prices from "../components/Prices.astro";
+import Terms from "../components/Terms.astro";
+import Station from "../components/Station.astro";
+import Brands from "../components/Brands.astro";
+import Business from "../components/Business.astro";
+import Contacts from "../components/Contacts.astro";
+import Footer from "../components/Footer.astro";
+import MobileBar from "../components/MobileBar.astro";
+import { contacts } from "../data/site";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AutoRepair",
+  name: "Автопарк-Сервіс",
+  telephone: "+380914819004",
+  email: contacts.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "вул. Кільцева, 60",
+    addressLocality: "Солонка",
+    addressRegion: "Львівська обл.",
+    addressCountry: "UA",
+  },
+  hasMap: contacts.maps,
+  openingHoursSpecification: [{
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    opens: "00:00",
+    closes: "23:59",
+  }],
+  sameAs: [contacts.facebook, contacts.instagram],
+};
+---
+<Base
+  lang="uk"
+  title="СТО у Львові цілодобово — ремонт і ТО авто | Автопарк-Сервіс"
+  description="Автопарк-Сервіс — СТО мережі Autopark на Кільцевій, 60 (Солонка), працює 24/7. ТО, ремонт двигуна й КПП, кузов, електромобілі. Фіксована ціна робіт, гарантія."
+>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <Header slot="header" />
+  <Hero />
+  <Services />
+  <Prices />
+  <Terms />
+  <Station />
+  <Brands />
+  <Business />
+  <Contacts />
+  <Fragment slot="footer">
+    <Footer />
+    <MobileBar />
+  </Fragment>
+</Base>
+
+<script>
+  import "../scripts/site.ts";
+</script>

@@ -1,0 +1,82 @@
+/* Hallmark · shape: visit and book single page · genre: editorial · theme: custom · job: visit · idea: "Станція, яка не гасить світло: реальний цех Autopark, живий час Львова і фірмові плашки як мова дій" · vibe: "світлий цех, документально, фірмово, прямо"
+ * paper: #F2F0EF · accent: #E31E24 · display: Geologica · body: Onest · hero: H1 зліва, справа пара плашок і під ними живий час, панорама цеху на всю ширину · nav: логотип-плашки, якорі, 24/7, червона плашка-телефон · footer: графітова смуга-візитка · imagery: client photos · signature: живий час Львова поруч із червоною плашкою дзвінка; пара плашок логотипа як єдина форма дій
+ * axes: light/geometric-sans/chromatic-red · posture: committed (brand plates: red fills only as call plates) · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: E (expressiveness), answered by the live Lviv time line and the full-width hall panorama instead of decoration */
+/* Hallmark · waive 39b · .switcher__tab is 64 to 80px · concept.md §5 sets the five service groups as large Geologica heads (40px) in a switcher: they are headings to choose a group, not marketing buttons */
+/* Hallmark · answered F19 · four weights are the approved concept pair: Geologica 600/700 for display, Onest 400/500 for text */
+/* Line 1 of this file is the Hallmark stamp (docs/process/hallmark.md); values below come from design/concept.md only. */
+:root {
+  /* Colour roles (concept §5 «Дизайн-система») */
+  --color-bg: #F2F0EF;
+  --color-surface: #FBFAF9;
+  --color-text: #1D1B1B;
+  --color-muted: #5F5A59;
+  --color-primary: #2B2B2B;
+  --color-primary-strong: #1D1B1B;
+  --color-accent: #E31E24;
+  --color-accent-strong: #C4161C;
+  --color-on-accent: #FFFCFB;
+  --color-on-primary: #FBFAF9;
+  --color-on-primary-muted: #C9C4C2;
+  --color-border: #D9D5D3;
+  --color-border-dark: #4A4646;
+  --color-field-border: #8A8482;
+  --color-focus: #2B2B2B;
+  --color-focus-on-dark: #FBFAF9;
+  --color-tooltip-bg: #1D1B1B;
+  --color-tooltip-text: #FBFAF9;
+
+  /* Faces: Geologica (display, prices, time) + Onest (text, interface), self-hosted via @fontsource */
+  --font-display: "Geologica", system-ui, sans-serif;
+  --font-body: "Onest", system-ui, sans-serif;
+
+  /* Type scale 15/18/22/32/48/96 at 1440 → 15/17/20/26/34/44 at 390 */
+  --fs-1: 0.9375rem;
+  --fs-2: clamp(1.0625rem, 1.039rem + 0.095vw, 1.125rem);
+  --fs-3: clamp(1.25rem, 1.204rem + 0.19vw, 1.375rem);
+  --fs-4: clamp(1.625rem, 1.486rem + 0.571vw, 2rem);
+  --fs-5: clamp(2rem, 1.8rem + 1.333vw, 3rem);
+  --fs-6: clamp(2.375rem, 1.543rem + 4.952vw, 6rem);
+  --fs-7: clamp(2.625rem, 1.329rem + 6.857vw, 7.5rem);
+  --fs-time: clamp(1.375rem, 1.25rem + 0.571vw, 1.75rem);
+
+  /* Spacing 4/8 scale */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+  --space-8: 8rem;
+  --space-9: 10rem;
+  --section-y: clamp(4.5rem, 2.6rem + 7.6vw, 9rem);
+  --section-y-dark: clamp(4rem, 3rem + 3.8vw, 6rem);
+
+  /* Grid: 12 columns, container 1360, margins 20 → 40, gutter 24 */
+  --space: clamp(1.25rem, 0.786rem + 1.905vw, 2.5rem);
+  --container: 1360px;
+  --gutter: 1.5rem;
+
+  /* Shape and chrome */
+  --radius: 0;
+  --plate-h: 3.5rem;
+  --plate-h-lg: 4.5rem;
+  --header-h: 3.5rem;
+  --bar-h: 3.5rem;
+  --logo-h: 2rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 600ms;
+  --dur-fast: 160ms;
+  --dur-switch: 240ms;
+}
+
+@media (min-width: 1100px) {
+  :root {
+    --plate-h: 4rem;
+    --header-h: 4.5rem;
+    --logo-h: 2.5rem;
+  }
+}

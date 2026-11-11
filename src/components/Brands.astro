@@ -1,0 +1,50 @@
+---
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import { brands, evModels, note } from "../data/site";
+---
+<Section id="brands" class="brands">
+  <div class="container brands__grid">
+    <div class="brands__main">
+      <h2 class="section-title">24 марки, електромобілі й гібриди</h2>
+      <ul class="brands__list" aria-label="Марки, які обслуговуємо">
+        {brands.map((b) => <li>{b}</li>)}
+      </ul>
+      <p class="brands__note">ТО — для всіх марок.</p>
+      <FutureLink note={note}>Усі марки</FutureLink>
+    </div>
+    <div class="brands__ev">
+      <h3 class="brands__ev-title">Електромобілі</h3>
+      <ul class="brands__ev-list">
+        {evModels.map((m) => <li>{m}</li>)}
+      </ul>
+      <p class="brands__tesla" data-rec="R-D07">Tesla наразі не обслуговуємо</p>
+    </div>
+  </div>
+</Section>
+
+<style is:global>
+  .brands { padding-block: var(--section-y); border-top: 1px solid var(--color-border); }
+  .brands__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  .brands__main { display: grid; gap: var(--space-3); align-content: start; justify-items: start; }
+  .brands__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25em 0.9em;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--fs-4);
+    line-height: 1.2;
+  }
+  .brands__note { color: var(--color-muted); }
+  .brands__ev { display: grid; gap: var(--space-2); align-content: start; padding: var(--space-3); background: var(--color-surface); }
+  .brands__ev-title { font-size: var(--fs-3); font-weight: 600; }
+  .brands__ev-list li { padding-block: 0.4rem; border-bottom: 1px solid var(--color-border); }
+  .brands__tesla { font-weight: 500; padding-top: var(--space-1); }
+  @media (min-width: 1100px) {
+    .brands__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+    .brands__main { grid-column: 1 / span 8; }
+    .brands__list { font-size: clamp(1.75rem, 1rem + 1vw, 2rem); }
+    .brands__ev { grid-column: 9 / span 4; }
+  }
+</style>

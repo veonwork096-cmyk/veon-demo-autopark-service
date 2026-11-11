@@ -1,0 +1,54 @@
+---
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import Plate from "./Plate.astro";
+import { prices, contacts, note } from "../data/site";
+---
+<Section id="prices" rec="R-D13" class="prices on-dark">
+  <div class="container prices__grid">
+    <div class="prices__head">
+      <h2 class="section-title">Орієнтовні ціни в гривнях</h2>
+      <p class="prices__note">Точна вартість — після діагностики. Ціну робіт фіксуємо до початку ремонту.</p>
+      <div class="prices__actions">
+        <Plate href={contacts.phoneHref} tone="red" icon="phone" sub={contacts.phoneText}>Уточнити ціну</Plate>
+        <FutureLink note={note}>Усі ціни</FutureLink>
+      </div>
+    </div>
+    <dl class="prices__list">
+      {prices.map((p) => (
+        <div class="prices__row">
+          <dt>{p.name}</dt>
+          <dd class="num">{p.from && <span class="prices__from">від</span>}{p.value}<span class="prices__cur">грн</span></dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</Section>
+
+<style is:global>
+  .prices { background: var(--color-primary); color: var(--color-on-primary); padding-block: var(--section-y-dark); }
+  .prices__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  .prices__head { display: grid; gap: var(--space-3); align-content: start; }
+  .prices__note { color: var(--color-on-primary-muted); max-width: 36ch; }
+  .prices__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+  .prices__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: var(--space-3);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-border-dark);
+  }
+  .prices__row:first-child { border-top: 1px solid var(--color-border-dark); }
+  .prices__row dt { font-size: var(--fs-3); }
+  .prices__row dd { font-weight: 700; font-size: var(--fs-5); line-height: 1.1; white-space: nowrap; }
+  .prices__from, .prices__cur { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-2); color: var(--color-on-primary-muted); }
+  .prices__from { margin-right: 0.5em; }
+  .prices__cur { margin-left: 0.35em; }
+  @media (min-width: 1100px) {
+    .prices__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+    .prices__head { grid-column: 1 / span 4; }
+    .prices__list { grid-column: 6 / span 7; }
+  }
+</style>

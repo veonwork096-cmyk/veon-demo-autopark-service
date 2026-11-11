@@ -1,0 +1,56 @@
+---
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import Plate from "./Plate.astro";
+import { contacts, note } from "../data/site";
+---
+<Section id="business" class="business">
+  <div class="container">
+    <h2 class="section-title business__title">Для компаній і клієнтів Autopark</h2>
+    <div class="business__grid">
+      <div class="business__panel business__panel--b2b on-dark">
+        <h3 class="business__h">Для юридичних осіб</h3>
+        <ul class="business__list">
+          <li>Індивідуальний договір</li>
+          <li>Прозорий розрахунок</li>
+          <li>Документи для бухгалтерії</li>
+          <li>Знижки постійним клієнтам і великим автопаркам</li>
+          <li>Персональний менеджер</li>
+        </ul>
+        <div class="business__actions">
+          <Plate href={contacts.emailHref} tone="light">Написати на e-mail</Plate>
+          <Plate href={contacts.phoneHref} tone="red" icon="phone">Зателефонувати</Plate>
+        </div>
+        <FutureLink note={note}>Детальніше для юросіб</FutureLink>
+      </div>
+      <div class="business__panel business__panel--own">
+        <h3 class="business__h">Купили авто в Autopark?</h3>
+        <p>Для вас знижки на всі послуги станції. Гарантійне обслуговування авто, придбаних в Autopark, — лише тут.</p>
+        <div class="business__actions">
+          <Plate href={contacts.phoneHref} tone="red" icon="phone">Зателефонувати</Plate>
+        </div>
+        <FutureLink note={note}>Програма для клієнтів Autopark</FutureLink>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style is:global>
+  .business { padding-bottom: var(--section-y); }
+  .business__title { margin-bottom: var(--space-5); }
+  .business__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gutter); }
+  .business__panel { display: grid; gap: var(--space-3); align-content: start; justify-items: start; padding: var(--space-4) var(--space-3); }
+  .business__panel--b2b { background: var(--color-primary); color: var(--color-on-primary); }
+  .business__panel--own { background: var(--color-surface); }
+  .business__h { font-size: var(--fs-4); font-weight: 600; }
+  .business__list { justify-self: stretch; }
+  .business__list li { padding-block: 0.5rem; border-bottom: 1px solid var(--color-border-dark); }
+  .business__panel--own p { max-width: 36ch; }
+  .business__actions { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+  @media (min-width: 1100px) {
+    .business__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .business__panel { padding: var(--space-6) var(--space-5); }
+    .business__panel--b2b { grid-column: 1 / span 7; }
+    .business__panel--own { grid-column: 8 / span 5; }
+  }
+</style>

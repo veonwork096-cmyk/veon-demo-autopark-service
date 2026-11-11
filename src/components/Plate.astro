@@ -1,0 +1,65 @@
+---
+// Action plate: the brand's two logo plates as the only button shape. red = call, graphite = write, light = write on graphite.
+import Icon from "./Icon.astro";
+interface Props {
+  href: string;
+  tone?: "red" | "graphite" | "light";
+  sub?: string;
+  icon?: "phone" | "telegram";
+  size?: "md" | "lg";
+  rec?: string;
+  external?: boolean;
+  class?: string;
+  label?: string;
+}
+const { href, tone = "red", sub, icon, size = "md", rec, external = false, class: cls, label } = Astro.props;
+---
+<a
+  class:list={["plate", `plate--${tone}`, `plate--${size}`, cls]}
+  href={href}
+  data-rec={rec}
+  aria-label={label}
+  {...(external ? { target: "_blank", rel: "noopener" } : {})}
+>
+  {icon && <Icon name={icon} />}
+  <span class="plate__text">
+    <span class="plate__label"><slot /></span>
+    {sub && <span class="plate__sub num">{sub}</span>}
+  </span>
+</a>
+
+<style is:global>
+  .plate {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--plate-h);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--fs-2);
+    line-height: 1.15;
+    text-decoration: none;
+    transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+  }
+  .plate--lg { min-height: var(--plate-h-lg); padding-inline: var(--space-4); }
+  .plate__text { display: flex; flex-direction: column; }
+  .plate__sub { font-weight: 600; font-size: var(--fs-1); opacity: 0.92; }
+  .plate--lg .plate__sub { font-size: var(--fs-3); opacity: 1; }
+  .plate--red { background: var(--color-accent); color: var(--color-on-accent); }
+  .plate--graphite { background: var(--color-primary); color: var(--color-on-primary); }
+  .plate--light { background: var(--color-surface); color: var(--color-text); }
+  .plate:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; transition: none; }
+  .on-dark .plate:focus-visible { outline-color: var(--color-focus-on-dark); }
+  @media (hover: hover) {
+    .plate:hover { transform: translateY(-2px); }
+  }
+  .plate:active { transform: translateY(0); }
+  .plate--red:active { background: var(--color-accent-strong); }
+  .plate--graphite:active { background: var(--color-primary-strong); }
+  .plate--light:active { background: var(--color-border); }
+  @media (prefers-reduced-motion: reduce) {
+    .plate:hover, .plate:active { transform: none; }
+  }
+</style>

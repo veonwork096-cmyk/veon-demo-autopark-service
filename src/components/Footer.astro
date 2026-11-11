@@ -1,0 +1,47 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/autopark-service-logo.png";
+import FutureLink from "./FutureLink.astro";
+import { contacts, note } from "../data/site";
+---
+<footer class="footer on-dark">
+  <div class="container footer__grid">
+    <a class="footer__logo" href="#hero" aria-label="Автопарк-Сервіс, на початок сторінки">
+      <Image src={logo} alt="" width={241} height={109} loading="lazy" class="footer__logo-img" />
+    </a>
+    <div class="footer__card">
+      <p><b>Автопарк-Сервіс</b> · {contacts.street}, {contacts.district}. Працюємо 24/7.</p>
+      <p class="footer__links">
+        <a class="text-link num" href={contacts.phoneHref}>{contacts.phoneText}</a>
+        <a class="text-link" href={contacts.emailHref}>{contacts.email}</a>
+        <a class="text-link" href={contacts.telegram} target="_blank" rel="noopener">Telegram</a>
+        <a class="text-link" href={contacts.facebook} target="_blank" rel="noopener">Facebook</a>
+        <a class="text-link" href={contacts.instagram} target="_blank" rel="noopener">Instagram</a>
+      </p>
+    </div>
+    <ul class="footer__future" aria-label="Розділи сайту в розробці">
+      <li><FutureLink note={note}>Блог</FutureLink></li>
+      <li><FutureLink note={note}>Акції</FutureLink></li>
+      <li><FutureLink note={note}>Політика конфіденційності</FutureLink></li>
+      <li><FutureLink note={note}>RU</FutureLink></li>
+      <li><FutureLink note={note}>EN</FutureLink></li>
+    </ul>
+  </div>
+</footer>
+
+<style is:global>
+  .footer { background: var(--color-primary); color: var(--color-on-primary); padding-block: var(--space-6); }
+  .footer__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+  .footer__logo { display: inline-block; justify-self: start; }
+  .footer__logo-img { height: 2.5rem; width: auto; }
+  .footer__card { display: grid; gap: var(--space-1); }
+  .footer__links { display: flex; flex-wrap: wrap; column-gap: var(--space-3); }
+  .footer__links a { overflow-wrap: anywhere; }
+  .footer__future { display: flex; flex-wrap: wrap; column-gap: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-border-dark); }
+  @media (min-width: 1100px) {
+    .footer__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: start; }
+    .footer__logo { grid-column: 1 / span 3; }
+    .footer__card { grid-column: 4 / span 9; }
+    .footer__future { grid-column: 1 / -1; }
+  }
+</style>

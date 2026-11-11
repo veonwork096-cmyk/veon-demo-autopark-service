@@ -1,0 +1,9 @@
+---
+// Live line «Зараз у Львові ГГ:ХХ — станція працює». Without JS the line says the same truth without the time (C-008).
+interface Props { class?: string; rec?: string; }
+const { class: cls, rec } = Astro.props;
+---
+<p class:list={["now", cls]} data-rec={rec}>
+  <span class="now__mark" aria-hidden="true"></span>
+  <span data-lviv-time>Працюємо цілодобово, без вихідних і свят</span>
+</p>

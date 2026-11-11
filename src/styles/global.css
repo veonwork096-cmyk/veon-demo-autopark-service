@@ -1,0 +1,101 @@
+/* Base: reset, accessibility, layout helpers, shared components (plates, FutureLink). Values only through tokens.css. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-2);
+  line-height: 1.55;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  padding-bottom: var(--bar-h);
+}
+@media (min-width: 1100px) { body { padding-bottom: 0; } }
+img, video, svg { display: block; max-width: 100%; height: auto; }
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.06;
+  margin: 0;
+  overflow-wrap: break-word;
+  min-width: 0;
+  text-wrap: balance;
+}
+p { margin: 0; text-wrap: pretty; }
+ul, ol, dl, dd { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: inherit; }
+::selection { background: var(--color-primary); color: var(--color-on-primary); }
+html { scrollbar-color: var(--color-muted) var(--color-bg); }
+button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
+button:disabled { opacity: 0.55; }
+:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+.on-dark :focus-visible { outline-color: var(--color-focus-on-dark); }
+.skip-link { position: absolute; left: 1rem; top: -100px; z-index: 100; padding: var(--space-1) var(--space-2); background: var(--color-text); color: var(--color-bg); }
+.skip-link:focus { top: 1rem; }
+.container { width: min(100% - 2 * var(--space), var(--container)); margin-inline: auto; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.num { font-family: var(--font-display); font-variant-numeric: tabular-nums lining-nums; }
+
+/* Reveal-on-scroll hook (src/scripts/reveal.ts). Hidden only once scripting runs (.js on <html>). */
+[data-reveal] { transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out); transition-delay: var(--reveal-delay, 0ms); }
+.js [data-reveal]:not(.is-visible) { opacity: 0; transform: translateY(24px); }
+[id] { scroll-margin-top: var(--header-h, 0px); }
+
+/* Section heading shared by blocks */
+.section-title { font-size: var(--fs-5); letter-spacing: 0; max-width: 18ch; }
+
+/* Text link (maps, e-mail, socials) */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.text-link:hover { text-decoration-thickness: 2px; }
+.text-link:active { color: var(--color-muted); }
+
+/* FutureLink: inactive item for a page that is not built yet; muted, dotted, with a note on hover/focus. */
+.future-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  cursor: default;
+  color: var(--color-muted);
+  font-size: var(--fs-1);
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+.on-dark .future-link { color: var(--color-on-primary-muted); }
+.future-link:hover { color: var(--color-text); }
+.on-dark .future-link:hover { color: var(--color-on-primary); }
+.future-link__note[aria-hidden="true"] {
+  position: absolute; left: 0; bottom: calc(100% + .25rem);
+  transform: translateY(4px);
+  white-space: nowrap; padding: .35rem .6rem;
+  font-family: var(--font-body); font-size: .8125rem; line-height: 1.2;
+  text-decoration: none;
+  background: var(--color-tooltip-bg); color: var(--color-tooltip-text);
+  border-radius: var(--radius);
+  opacity: 0; pointer-events: none;
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+  z-index: 20;
+}
+.on-dark .future-link__note[aria-hidden="true"] { background: var(--color-surface); color: var(--color-text); }
+.future-link:hover .future-link__note, .future-link:focus-visible .future-link__note { opacity: 1; transform: translateY(0); }
+.future-link:focus-visible { transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .js [data-reveal]:not(.is-visible) { opacity: 1; transform: none; }
+}
